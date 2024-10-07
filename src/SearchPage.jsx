@@ -72,9 +72,8 @@ const SearchPage = ({ addFavorite, favorites }) => {
       <div className="movie-list">
         {sortedMovies.length > 0
           ? sortedMovies.map((movie) => (
-              <div className="movie-card">
+              <div key={movie.imdbID} className="movie-card">
                 <MovieCard
-                  key={movie.imdbID}
                   title={movie.Title}
                   year={movie.Year}
                   poster={movie.Poster}
