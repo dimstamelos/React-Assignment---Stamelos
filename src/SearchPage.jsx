@@ -7,6 +7,7 @@ import "./styles/SearchPage.css";
 const SearchPage = ({ addFavorite, favorites }) => {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
+  const [sortCriteria, setSortCriteria] = useState("default");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -14,7 +15,6 @@ const SearchPage = ({ addFavorite, favorites }) => {
     setLoading(true);
     try {
       const apiKey = process.env.REACT_APP_OMDB_API_KEY;
-      console.log(apiKey);
       const response = await axios.get(
         `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
       );
@@ -26,6 +26,23 @@ const SearchPage = ({ addFavorite, favorites }) => {
     }
   };
 
+  const sortMovies = (movies) => {
+    switch (sortCriteria) {
+      case "yearAsc":
+        return [...movies].sort((a, b) => a.Year - b.Year);
+      case "yearDesc":
+        return [...movies].sort((a, b) => b.Year - a.Year);
+      case "titleAsc":
+        return [...movies].sort((a, b) => a.Title.localeCompare(b.Title));
+      case "titleDesc":
+        return [...movies].sort((a, b) => b.Title.localeCompare(a.Title));
+      default:
+        return movies;
+    }
+  };
+
+  const sortedMovies = sortMovies(movies);
+
   return (
     <div className="container">
       <div className="search-bar">
@@ -36,14 +53,25 @@ const SearchPage = ({ addFavorite, favorites }) => {
           placeholder="Search for a movie..."
         />
         <button onClick={handleSearch}>Search</button>
+        <select
+          value={sortCriteria}
+          onChange={(e) => setSortCriteria(e.target.value)}
+          className="sort-dropdown"
+        >
+          <option value="default">Sort by</option>
+          <option value="yearAsc">Year: Oldest first</option>
+          <option value="yearDesc">Year: Newest first</option>
+          <option value="titleAsc">Title: A-Z</option>
+          <option value="titleDesc">Title: Z-A</option>
+        </select>
       </div>
 
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
 
       <div className="movie-list">
-        {movies.length > 0
-          ? movies.map((movie) => (
+        {sortedMovies.length > 0
+          ? sortedMovies.map((movie) => (
               <div className="movie-card">
                 <MovieCard
                   key={movie.imdbID}
