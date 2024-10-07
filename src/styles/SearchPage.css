@@ -95,6 +95,10 @@ button:hover {
   background-color: #0056b3;
 }
 
+.movie-card button {
+  align-self: center;
+}
+
 @media (max-width: 768px) {
   .search-bar {
     flex-direction: column;
