@@ -1,8 +1,8 @@
-# Project
+# React assignment -Movie Search Project-
 
 This project is a movie search app wrote in React.I used axios for the communication with the backend and local storage
 for the saving of user's favorite movies.The App has responsive design and is fully functional on both PC and mobile devices.
-I also implemented some of the nice to have features required such us filtering in the search page.
+I also implemented some of the nice to have features required such as filtering in the search page.
 
 ## Available Scripts
 
